@@ -12,14 +12,14 @@ public class OperationsDB {
     ConnectMySql conn = new ConnectMySql();
     Connection con = conn.connectMySQL();
 
-    public void insertDB(String nameTask, int numberP) throws SQLException {
+    public void insertDB(String taskname, int cantidadP) throws SQLException {
         try {
-            String sql = "INSERT INTO completedtasks (idcompletedtask, nametasks, cantidad) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO tasks (idtask, taskname, cantidad) VALUES (?, ?, ?)";
 
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, 0);
-            ps.setString(2, nameTask);
-            ps.setInt(3, numberP);
+            ps.setString(2, taskname);
+            ps.setInt(3, cantidadP);
             ps.executeUpdate();
 
         } catch (SQLException ex) {

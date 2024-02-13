@@ -4,6 +4,12 @@
  */
 package ax.mg.vista;
 
+import ax.mg.operationsdb.OperationsDB;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author te210
@@ -102,6 +108,11 @@ public class PomodoroVista extends javax.swing.JFrame {
 
         btnAgregar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
         btnAgregar.setText("Agregar tarea");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
         jpFondo.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, -1, -1));
 
         btnIniciarTarea.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
@@ -187,6 +198,28 @@ public class PomodoroVista extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+
+        String task = txtTarea.getText();
+        String con = txtPomodoros.getText();
+
+        if (!task.isEmpty() && !con.isEmpty()) {
+
+            int cantidad = Integer.parseInt(con);
+            OperationsDB operations = new OperationsDB();
+            
+            try {
+                operations.insertDB(task, cantidad);
+            } catch (SQLException ex) {
+                Logger.getLogger(PomodoroVista.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Llenar todos los campos");
+        }
+
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     /**
      * @param args the command line arguments
