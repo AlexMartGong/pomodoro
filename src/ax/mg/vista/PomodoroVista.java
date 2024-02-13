@@ -28,7 +28,7 @@ public class PomodoroVista extends javax.swing.JFrame {
 
         jpFondo = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbTask = new javax.swing.JTable();
         txtTarea = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -53,21 +53,29 @@ public class PomodoroVista extends javax.swing.JFrame {
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbTask.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        tbTask.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Task", "Pomodoros"
             }
-        ));
-        jTable1.setGridColor(new java.awt.Color(255, 255, 255));
-        jTable1.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tbTask.setGridColor(new java.awt.Color(255, 255, 255));
+        tbTask.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setViewportView(tbTask);
 
         jpFondo.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 210));
 
@@ -228,11 +236,11 @@ public class PomodoroVista extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel jpFondo;
     private javax.swing.JLabel labelNameTarea;
     private javax.swing.JLabel labelSiguienteTarea;
     private javax.swing.JLabel labelTiempoTarea;
+    private javax.swing.JTable tbTask;
     private javax.swing.JTextField txtPomodoros;
     private javax.swing.JTextField txtTarea;
     // End of variables declaration//GEN-END:variables
