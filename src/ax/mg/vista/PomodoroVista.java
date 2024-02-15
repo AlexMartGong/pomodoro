@@ -43,6 +43,7 @@ public class PomodoroVista extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         labelTiempoTarea = new javax.swing.JLabel();
         labelSiguienteTarea = new javax.swing.JLabel();
+        labelNameTarea1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -95,7 +96,6 @@ public class PomodoroVista extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         labelNameTarea.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        labelNameTarea.setText("Tarea...");
 
         jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel5.setText("Continua: ");
@@ -106,6 +106,9 @@ public class PomodoroVista extends javax.swing.JFrame {
         labelSiguienteTarea.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         labelSiguienteTarea.setText("Siguiente tarea");
 
+        labelNameTarea1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        labelNameTarea1.setText("Task:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -113,12 +116,15 @@ public class PomodoroVista extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelNameTarea)
+                    .addComponent(labelTiempoTarea)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(labelNameTarea1))
                         .addGap(18, 18, 18)
-                        .addComponent(labelSiguienteTarea))
-                    .addComponent(labelTiempoTarea))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelNameTarea)
+                            .addComponent(labelSiguienteTarea))))
                 .addContainerGap(108, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -127,7 +133,9 @@ public class PomodoroVista extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(labelTiempoTarea)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(labelNameTarea)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelNameTarea)
+                    .addComponent(labelNameTarea1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -146,17 +154,17 @@ public class PomodoroVista extends javax.swing.JFrame {
 
         tbTask.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Task", "Pomodoros"
+                "ID", "Task", "Pomodoros"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -207,6 +215,31 @@ public class PomodoroVista extends javax.swing.JFrame {
     private void btnIniciarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarTareaActionPerformed
 
         Temporizador tem = new Temporizador(25, labelTiempoTarea);
+        int fila = tbTask.getSelectedRow();
+        int id = Integer.parseInt(tbTask.getValueAt(fila, 0).toString());
+        int pomodoros = 0;
+        
+        String sql;
+
+        try {
+            PreparedStatement ps;
+            ResultSet rs;
+
+            sql = "SELECT taskname, cantidad FROM tasks WHERE idtask=?";
+            ps = con.prepareStatement(sql);
+
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                labelNameTarea.setText(rs.getString("taskname"));
+                pomodoros = rs.getInt("cantidad");
+                System.out.println(pomodoros);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
 
     }//GEN-LAST:event_btnIniciarTareaActionPerformed
 
@@ -256,6 +289,7 @@ public class PomodoroVista extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel jpFondo;
     private javax.swing.JLabel labelNameTarea;
+    private javax.swing.JLabel labelNameTarea1;
     private javax.swing.JLabel labelSiguienteTarea;
     private javax.swing.JLabel labelTiempoTarea;
     private javax.swing.JTable tbTask;
@@ -275,7 +309,7 @@ public class PomodoroVista extends javax.swing.JFrame {
         int columnas;
 
         try {
-            sql = "SELECT taskname, cantidad FROM tasks";
+            sql = "SELECT idtask, taskname, cantidad FROM tasks";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             rsmd = (ResultSetMetaData) rs.getMetaData();
