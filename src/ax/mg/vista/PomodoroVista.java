@@ -5,11 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import ax.mg.operationsdb.OperationsDB;
+import ax.mg.pomodorostiempo.Temporizador;
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
-import com.sun.jdi.connect.spi.Connection;
+import java.awt.Label;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -37,7 +39,6 @@ public class PomodoroVista extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         btnIniciarTarea = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         labelNameTarea = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         labelTiempoTarea = new javax.swing.JLabel();
@@ -84,12 +85,14 @@ public class PomodoroVista extends javax.swing.JFrame {
 
         btnIniciarTarea.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
         btnIniciarTarea.setText("Iniciar tarea");
+        btnIniciarTarea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarTareaActionPerformed(evt);
+            }
+        });
         jpFondo.add(btnIniciarTarea, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 220, -1, -1));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jLabel3.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel3.setText("Enfoque");
 
         labelNameTarea.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         labelNameTarea.setText("Tarea...");
@@ -110,30 +113,19 @@ public class PomodoroVista extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelNameTarea)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelNameTarea)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(labelSiguienteTarea)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                        .addComponent(labelTiempoTarea)
-                        .addGap(55, 55, 55))))
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(labelSiguienteTarea))
+                    .addComponent(labelTiempoTarea))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(labelTiempoTarea)))
+                .addContainerGap()
+                .addComponent(labelTiempoTarea)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(labelNameTarea)
                 .addGap(18, 18, 18)
@@ -150,7 +142,7 @@ public class PomodoroVista extends javax.swing.JFrame {
         jpFondo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ax/mg/images/images.png"))); // NOI18N
-        jpFondo.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, 320, 170));
+        jpFondo.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 30, 200, 170));
 
         tbTask.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -201,6 +193,7 @@ public class PomodoroVista extends javax.swing.JFrame {
 
             try {
                 operations.insertDB(task, cantidad);
+                cargarTable();
             } catch (SQLException ex) {
                 Logger.getLogger(PomodoroVista.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -211,9 +204,12 @@ public class PomodoroVista extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnIniciarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarTareaActionPerformed
+
+        Temporizador tem = new Temporizador(25, labelTiempoTarea);
+
+    }//GEN-LAST:event_btnIniciarTareaActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -251,7 +247,6 @@ public class PomodoroVista extends javax.swing.JFrame {
     private javax.swing.JButton btnIniciarTarea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -268,7 +263,7 @@ public class PomodoroVista extends javax.swing.JFrame {
     private javax.swing.JTextField txtTarea;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarTable(){
+    private void cargarTable() {
 
         DefaultTableModel modelTable = (DefaultTableModel) tbTask.getModel();
         modelTable.setRowCount(0);
