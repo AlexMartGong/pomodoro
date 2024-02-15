@@ -42,9 +42,4 @@ public class ConnectMySql {
         return conn;
     }
 
-    public static void main(String[] args) {
-        ConnectMySql conn = new ConnectMySql();
-        conn.connectMySQL();
-    }
-
 }
