@@ -214,11 +214,10 @@ public class PomodoroVista extends javax.swing.JFrame {
 
     private void btnIniciarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarTareaActionPerformed
 
-        Temporizador tem = new Temporizador(25, labelTiempoTarea);
         int fila = tbTask.getSelectedRow();
         int id = Integer.parseInt(tbTask.getValueAt(fila, 0).toString());
         int pomodoros = 0;
-        
+
         String sql;
 
         try {
@@ -236,6 +235,8 @@ public class PomodoroVista extends javax.swing.JFrame {
                 pomodoros = rs.getInt("cantidad");
                 System.out.println(pomodoros);
             }
+
+            Temporizador tem = new Temporizador(25, labelTiempoTarea, pomodoros);
 
         } catch (SQLException e) {
             System.out.println(e.toString());

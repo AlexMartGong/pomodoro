@@ -7,19 +7,25 @@ import javax.swing.JLabel;
 public class Temporizador {
 
     Timer timer;
-    private int segundosTranscurridos = 0;
+    int segundosTranscurridos = 0;
     JLabel label;
+    int repeticiones;
 
-    public Temporizador(int segundos, JLabel label) {
+    public Temporizador(int segundos, JLabel label, int repeticiones) {
         this.label = label;
+        this.repeticiones = repeticiones;
         timer = new Timer();
         timer.schedule(new TareaTemporizador(), 0, 1000);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 timer.cancel();
-                if (segundos == 25) {
-                    new Temporizador(5, label);
+                if ((repeticiones + 1) > 1) {
+                    if (segundos == 25) {
+                        new Temporizador(5, label, repeticiones - 1);
+                    } else if (segundos == 5) {
+                        new Temporizador(25, label, repeticiones);
+                    }
                 }
             }
         }, segundos * 1000);
