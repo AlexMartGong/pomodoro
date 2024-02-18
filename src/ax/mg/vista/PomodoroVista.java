@@ -233,7 +233,7 @@ public class PomodoroVista extends javax.swing.JFrame {
             while (rs.next()) {
                 labelNameTarea.setText(rs.getString("taskname"));
                 pomodoros = rs.getInt("cantidad");
-                System.out.println(pomodoros);
+                System.out.println("Pomodores: " + pomodoros);
             }
 
             Temporizador tem = new Temporizador(25, labelTiempoTarea, pomodoros);

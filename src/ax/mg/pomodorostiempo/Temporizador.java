@@ -10,6 +10,7 @@ public class Temporizador {
     int segundosTranscurridos = 0;
     JLabel label;
     int repeticiones;
+    int ciclo;
 
     public Temporizador(int segundos, JLabel label, int repeticiones) {
         this.label = label;
@@ -21,21 +22,33 @@ public class Temporizador {
             public void run() {
                 timer.cancel();
                 if ((repeticiones + 1) > 1) {
-                    if (segundos == 25) {
+
+                    if (segundos == 25 && ciclo % 4 != 0) {
+
                         new Temporizador(5, label, repeticiones - 1);
-                    } else if (segundos == 5) {
+                        ciclo++;
+
+                    } else if (segundos == 5 || segundos == 15) {
+
                         new Temporizador(25, label, repeticiones);
+
+                    } else if (ciclo % 4 == 0 && segundos == 25) {
+
+                        new Temporizador(15, label, repeticiones - 1);
+                        ciclo++;
+
                     }
+                    System.out.println(ciclo);
                 }
             }
-        }, segundos * 1000);
+        }, segundos * 1000L);
     }
 
     class TareaTemporizador extends TimerTask {
 
         public void run() {
             segundosTranscurridos++;
-            label.setText("Tiempo: " + segundosTranscurridos);
+            label.setText("" + segundosTranscurridos);
         }
     }
 }
