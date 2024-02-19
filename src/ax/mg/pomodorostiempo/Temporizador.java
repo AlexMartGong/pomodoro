@@ -10,7 +10,7 @@ public class Temporizador {
     int segundosTranscurridos = 0;
     JLabel label;
     int repeticiones;
-    int ciclo;
+    static int ciclo = 1;
 
     public Temporizador(int segundos, JLabel label, int repeticiones) {
         this.label = label;
@@ -38,7 +38,6 @@ public class Temporizador {
                         ciclo++;
 
                     }
-                    System.out.println(ciclo);
                 }
             }
         }, segundos * 1000L);
