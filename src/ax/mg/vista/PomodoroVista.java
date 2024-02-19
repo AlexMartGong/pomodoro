@@ -215,32 +215,38 @@ public class PomodoroVista extends javax.swing.JFrame {
     private void btnIniciarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarTareaActionPerformed
 
         int fila = tbTask.getSelectedRow();
-        int id = Integer.parseInt(tbTask.getValueAt(fila, 0).toString());
         int pomodoros = 0;
 
-        String sql;
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor, selecciona una fila en la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            int id = Integer.parseInt(tbTask.getValueAt(fila, 0).toString());
 
-        try {
-            PreparedStatement ps;
-            ResultSet rs;
+            try {
+                PreparedStatement ps;
+                ResultSet rs;
+                String sql;
 
-            sql = "SELECT taskname, cantidad FROM tasks WHERE idtask=?";
-            ps = con.prepareStatement(sql);
+                sql = "SELECT taskname, cantidad FROM tasks WHERE idtask=?";
+                ps = con.prepareStatement(sql);
 
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
+                ps.setInt(1, id);
+                rs = ps.executeQuery();
 
-            while (rs.next()) {
-                labelNameTarea.setText(rs.getString("taskname"));
-                pomodoros = rs.getInt("cantidad");
-                System.out.println("Pomodores: " + pomodoros);
+                while (rs.next()) {
+                    labelNameTarea.setText(rs.getString("taskname"));
+                    pomodoros = rs.getInt("cantidad");
+                    System.out.println("Pomodores: " + pomodoros);
+                }
+
+                Temporizador tem = new Temporizador(25, labelTiempoTarea, pomodoros);
+
+            } catch (SQLException e) {
+                System.out.println(e.toString());
             }
 
-            Temporizador tem = new Temporizador(25, labelTiempoTarea, pomodoros);
-
-        } catch (SQLException e) {
-            System.out.println(e.toString());
         }
+
 
     }//GEN-LAST:event_btnIniciarTareaActionPerformed
 
