@@ -48,6 +48,7 @@ public class PomodoroVista extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbTask = new javax.swing.JTable();
+        btnUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,10 +56,11 @@ public class PomodoroVista extends javax.swing.JFrame {
         jpFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtTarea.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jpFondo.add(txtTarea, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 210, -1));
+        txtTarea.setBorder(null);
+        jpFondo.add(txtTarea, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 210, -1));
 
         jLabel1.setFont(new java.awt.Font("Roboto Black", 0, 24)); // NOI18N
-        jLabel1.setText("Tarea");
+        jLabel1.setText("Tareas");
         jpFondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
@@ -70,29 +72,35 @@ public class PomodoroVista extends javax.swing.JFrame {
         jpFondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
 
         txtPomodoros.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jpFondo.add(txtPomodoros, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 130, -1));
+        txtPomodoros.setBorder(null);
+        jpFondo.add(txtPomodoros, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 130, -1));
 
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
         jpFondo.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 130, 20));
 
-        btnAgregar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        btnAgregar.setBackground(new java.awt.Color(255, 102, 102));
+        btnAgregar.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnAgregar.setText("Agregar tarea");
+        btnAgregar.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
             }
         });
-        jpFondo.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, -1, -1));
+        jpFondo.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 360, -1, -1));
 
-        btnIniciarTarea.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        btnIniciarTarea.setBackground(new java.awt.Color(255, 102, 102));
+        btnIniciarTarea.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnIniciarTarea.setText("Iniciar tarea");
+        btnIniciarTarea.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         btnIniciarTarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarTareaActionPerformed(evt);
             }
         });
-        jpFondo.add(btnIniciarTarea, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 220, -1, -1));
+        jpFondo.add(btnIniciarTarea, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, -1, -1));
 
+        jPanel1.setBackground(new java.awt.Color(255, 204, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         labelNameTarea.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
@@ -190,6 +198,17 @@ public class PomodoroVista extends javax.swing.JFrame {
 
         jpFondo.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 200));
 
+        btnUpdate.setBackground(new java.awt.Color(255, 102, 102));
+        btnUpdate.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        btnUpdate.setText("Actualizar tabla");
+        btnUpdate.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        jpFondo.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 210, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -217,6 +236,7 @@ public class PomodoroVista extends javax.swing.JFrame {
             try {
                 operations.insertDB(task, cantidad);
                 cargarTable();
+                limpiar();
             } catch (SQLException ex) {
                 Logger.getLogger(PomodoroVista.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -233,7 +253,7 @@ public class PomodoroVista extends javax.swing.JFrame {
         int pomodoros = 0;
 
         if (fila == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, selecciona una fila en la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Por favor, selecciona una tarea.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             int id = Integer.parseInt(tbTask.getValueAt(fila, 0).toString());
 
@@ -251,12 +271,11 @@ public class PomodoroVista extends javax.swing.JFrame {
                 while (rs.next()) {
                     labelNameTarea.setText(rs.getString("taskname"));
                     pomodoros = rs.getInt("cantidad");
-                    labelPomodoros.setText(""+pomodoros);
+                    labelPomodoros.setText("" + pomodoros);
                 }
-                
-                
-                
-                Temporizador temporizador = new Temporizador(25, labelTiempoTarea, labelPomodoConsu, labelPomodoros, pomodoros);
+
+                Temporizador temporizador = new Temporizador(25, labelTiempoTarea, labelPomodoConsu, labelPomodoros, pomodoros, id);
+                cargarTable();
 
             } catch (SQLException e) {
                 System.out.println(e.toString());
@@ -266,6 +285,11 @@ public class PomodoroVista extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnIniciarTareaActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+
+        cargarTable();
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -302,6 +326,7 @@ public class PomodoroVista extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnIniciarTarea;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -355,4 +380,8 @@ public class PomodoroVista extends javax.swing.JFrame {
 
     }
 
+    public void limpiar() {
+        txtPomodoros.setText("");
+        txtTarea.setText("");
+    }
 }

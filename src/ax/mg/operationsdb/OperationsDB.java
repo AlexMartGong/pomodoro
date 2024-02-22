@@ -29,4 +29,21 @@ public class OperationsDB {
         }
     }
 
+    public void deleteTasks(int taskId) throws SQLException {
+
+        try {
+            
+            String sql = "DELETE FROM tasks WHERE idtask=" + taskId;
+            
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.getMessage();
+        } finally {
+            con.close();
+        }
+
+    }
+
 }
