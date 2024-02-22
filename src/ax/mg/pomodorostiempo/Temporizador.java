@@ -9,12 +9,17 @@ public class Temporizador {
     Timer timer;
     int segundosTranscurridos = 0;
     JLabel label;
+    JLabel consumidos;
+    JLabel restantes;
     int repeticiones;
     static int ciclo = 1;
+    static String estado = "Enfoque";
 
-    public Temporizador(int segundos, JLabel label, int repeticiones) {
+    public Temporizador(int segundos, JLabel label, JLabel consumidos, JLabel restantes, int repeticiones) {
         this.label = label;
+        this.consumidos = consumidos;
         this.repeticiones = repeticiones;
+        this.restantes = restantes;
         timer = new Timer();
         timer.schedule(new TareaTemporizador(), 0, 1000);
         timer.schedule(new TimerTask() {
@@ -25,16 +30,19 @@ public class Temporizador {
 
                     if (segundos == 25 && ciclo % 4 != 0) {
 
-                        new Temporizador(5, label, repeticiones - 1);
+                        estado = "Descanso";
+                        new Temporizador(5, label, consumidos, restantes, repeticiones - 1);
                         ciclo++;
 
                     } else if (segundos == 5 || segundos == 15) {
 
-                        new Temporizador(25, label, repeticiones);
+                        estado = "Enfoque";
+                        new Temporizador(25, label, consumidos, restantes, repeticiones);
 
                     } else if (ciclo % 4 == 0 && segundos == 25) {
 
-                        new Temporizador(15, label, repeticiones - 1);
+                        estado = "Descanso";
+                        new Temporizador(15, label, consumidos, restantes, repeticiones - 1);
                         ciclo++;
 
                     }
@@ -47,7 +55,10 @@ public class Temporizador {
 
         public void run() {
             segundosTranscurridos++;
-            label.setText("" + segundosTranscurridos);
+            label.setText(estado + ": " + segundosTranscurridos);
+            consumidos.setText("" + (ciclo - 1));
+            restantes.setText("" + repeticiones);
+            
         }
     }
 }

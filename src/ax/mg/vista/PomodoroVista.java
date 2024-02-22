@@ -7,11 +7,9 @@ import java.sql.ResultSet;
 import ax.mg.operationsdb.OperationsDB;
 import ax.mg.pomodorostiempo.Temporizador;
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
-import java.awt.Label;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,10 +38,12 @@ public class PomodoroVista extends javax.swing.JFrame {
         btnIniciarTarea = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         labelNameTarea = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         labelTiempoTarea = new javax.swing.JLabel();
-        labelSiguienteTarea = new javax.swing.JLabel();
         labelNameTarea1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        labelSiguienteTarea = new javax.swing.JLabel();
+        labelPomodoros = new javax.swing.JLabel();
+        labelPomodoConsu = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -97,17 +97,21 @@ public class PomodoroVista extends javax.swing.JFrame {
 
         labelNameTarea.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        jLabel5.setText("Continua: ");
-
         labelTiempoTarea.setFont(new java.awt.Font("Roboto Light", 1, 36)); // NOI18N
         labelTiempoTarea.setText("00:00");
 
-        labelSiguienteTarea.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        labelSiguienteTarea.setText("Siguiente tarea");
-
         labelNameTarea1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         labelNameTarea1.setText("Task:");
+
+        jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        jLabel5.setText("Pomodores:");
+
+        labelSiguienteTarea.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        labelSiguienteTarea.setText("Pomodores consumidos:");
+
+        labelPomodoros.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+
+        labelPomodoConsu.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -118,32 +122,43 @@ public class PomodoroVista extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTiempoTarea)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(labelNameTarea1))
+                        .addComponent(labelNameTarea1)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelNameTarea)
-                            .addComponent(labelSiguienteTarea))))
-                .addContainerGap(108, Short.MAX_VALUE))
+                        .addComponent(labelNameTarea))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(labelSiguienteTarea)
+                                .addGap(18, 18, 18)
+                                .addComponent(labelPomodoConsu))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(labelPomodoros)))))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(labelTiempoTarea)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(labelPomodoros))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelSiguienteTarea)
+                    .addComponent(labelPomodoConsu))
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNameTarea)
                     .addComponent(labelNameTarea1))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(labelSiguienteTarea))
-                .addGap(16, 16, 16))
+                .addContainerGap())
         );
 
-        jpFondo.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 310, 300, 140));
+        jpFondo.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 280, 340, 170));
 
         jLabel4.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel4.setText("Tarea");
@@ -236,10 +251,12 @@ public class PomodoroVista extends javax.swing.JFrame {
                 while (rs.next()) {
                     labelNameTarea.setText(rs.getString("taskname"));
                     pomodoros = rs.getInt("cantidad");
-                    System.out.println("Pomodores: " + pomodoros);
+                    labelPomodoros.setText(""+pomodoros);
                 }
-
-                Temporizador tem = new Temporizador(25, labelTiempoTarea, pomodoros);
+                
+                
+                
+                Temporizador temporizador = new Temporizador(25, labelTiempoTarea, labelPomodoConsu, labelPomodoros, pomodoros);
 
             } catch (SQLException e) {
                 System.out.println(e.toString());
@@ -297,6 +314,8 @@ public class PomodoroVista extends javax.swing.JFrame {
     private javax.swing.JPanel jpFondo;
     private javax.swing.JLabel labelNameTarea;
     private javax.swing.JLabel labelNameTarea1;
+    private javax.swing.JLabel labelPomodoConsu;
+    private javax.swing.JLabel labelPomodoros;
     private javax.swing.JLabel labelSiguienteTarea;
     private javax.swing.JLabel labelTiempoTarea;
     private javax.swing.JTable tbTask;
