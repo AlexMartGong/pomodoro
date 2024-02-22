@@ -100,7 +100,7 @@ public class PomodoroVista extends javax.swing.JFrame {
         });
         jpFondo.add(btnIniciarTarea, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, -1, -1));
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         labelNameTarea.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N

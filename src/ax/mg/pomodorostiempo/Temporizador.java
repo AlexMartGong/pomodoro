@@ -19,6 +19,7 @@ public class Temporizador {
     int repeticiones;
     static int ciclo = 1;
     static String estado = "Enfoque";
+    static int x = 0;
 
     public Temporizador(int segundos, JLabel label, JLabel consumidos, JLabel restantes, int repeticiones, int id) {
         this.label = label;
@@ -67,6 +68,12 @@ public class Temporizador {
 
             if (repeticiones == 0) {
                 OperationsDB operacionesDB = new OperationsDB();
+                
+                    if (segundosTranscurridos == 5 && x == 0) {
+                        estado = "Enfoque";
+                        x++;
+                    }
+                    
                 try {
                     operacionesDB.deleteTasks(id);
                 } catch (SQLException ex) {
